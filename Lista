@@ -1,0 +1,408 @@
+
+public class Lista<T> {
+	private Nodo<T> inicio;
+
+	public Lista() {
+		inicio = null;
+	}
+
+	public void agregarInicio(T dato1) {
+		Nodo<T> nuevo = new Nodo<T>(dato1);
+		if (inicio == null) {
+			inicio = nuevo;
+		} else {
+			Nodo<T> aux = inicio;
+			inicio = nuevo;
+			inicio.setSiguiente(aux);
+		}
+	}
+
+	public void recorrer() {
+		Nodo<T> aux = inicio;
+		while (aux != null) {
+			System.out.print(aux.getDato() + " ");
+			aux = aux.getSiguiente();
+		}
+	}
+
+	public void insertar(Integer d) {
+		Nodo<T> nuevo = new Nodo(d);
+		if (inicio == null) {
+			inicio = nuevo;
+		} else {
+			Nodo<T> aux = inicio;
+			inicio = nuevo;
+			inicio.setSiguiente(aux);
+		}
+	}
+
+	public void ordenar(Integer d) {
+		Nodo<T> nuevo = new Nodo(d);
+		if (inicio == null) {
+			inicio = nuevo;
+		} else {
+			Nodo<T> aux = inicio;
+			Nodo<T> ant = null;
+			while ((aux != null) && (aux.getDato() < nuevo.getDato())) {
+				ant = aux;
+				aux = aux.getSiguiente();
+			}
+			if ((ant == null) && (aux.getDato() == nuevo.getDato())) {
+				System.out.println("Esta repetido");
+			} else if (ant == null) {
+				nuevo.setSiguiente(inicio);
+				inicio = nuevo;
+			} else if (aux == null) {
+				ant.setSiguiente(nuevo);
+			} else {
+				ant.setSiguiente(nuevo);
+				nuevo.setSiguiente(aux);
+			}
+		}
+	}
+
+	public void eliminar(Integer e) {
+		Nodo<T> aux = inicio;
+		Nodo<T> ant = null;
+		while ((aux != null) && (aux.getDato() != e)) {
+			ant = aux;
+			aux = aux.getSiguiente();
+		}
+
+		if (ant == null) {
+			inicio = inicio.getSiguiente();
+		} else {
+			ant.setSiguiente(aux.getSiguiente());
+		}
+		aux.setSiguiente(null);
+		aux = null;
+
+	}
+
+	public void eliminarTodos(Integer e) {
+		Nodo<T> aux = inicio;
+		Nodo<T> ant = null;
+		boolean bandera;
+		while (aux != null) {
+			if (aux.getDato() == e) {
+				if (ant == null) {
+					inicio = inicio.getSiguiente();
+					aux.setSiguiente(null);
+					aux = inicio;
+				} else {
+					ant.setSiguiente(aux.getSiguiente());
+					aux.setSiguiente(null);
+					aux = ant.getSiguiente();
+				}
+
+			} else {
+				ant = aux;
+				aux = aux.getSiguiente();
+			}
+
+		}
+
+	}
+
+	public boolean existe(Integer e) {
+		Nodo<T> aux = inicio;
+		while ((aux != null) && aux.getDato() != e) {
+			aux = aux.getSiguiente();
+		}
+		return aux != null;
+	}
+
+	public Nodo<T> getElemento(Integer d) {
+		Nodo<T> aux = inicio;
+		while ((aux != null) && aux.getDato() != d) {
+			aux = aux.getSiguiente();
+		}
+		return aux;
+	}
+
+	public Integer getNumero(Integer d) {
+		Integer contador = 0;
+		Nodo<T> aux = inicio;
+		while (aux != null) {
+			if (aux.getDato() != d)
+				contador++;
+			aux = aux.getSiguiente();
+		}
+		return contador;
+	}
+
+	public Integer posicion(Integer d) {
+		Integer contador = 0;
+		Nodo<T> aux = inicio;
+		while (aux != null) {
+			contador++;
+			if (aux.getDato() == d) {
+				return contador;
+			}
+			aux = aux.getSiguiente();
+		}
+		contador = 0;
+		return contador;
+	}
+
+	public Lista posicionTodas(Integer d) {
+		Nodo<T> aux = inicio;
+		Integer contador = 0;
+		Lista listita = new Lista();
+		while (aux != null) {
+			contador++;
+			if (aux.getDato() == d) {
+				listita.insertar(contador);
+			}
+			aux = aux.getSiguiente();
+		}
+		return listita;
+	}
+
+	public void insertarAlFinal(Integer d) {
+		Nodo<T> nuevo = new Nodo(d);
+		if (inicio == null) {
+			inicio = nuevo;
+		} else {
+			Nodo<T> aux = inicio;
+			while (aux.getSiguiente() != null) {
+				aux = aux.getSiguiente();
+			}
+			aux.setSiguiente(nuevo);
+		}
+
+	}
+
+	public Integer mayor(Lista a) {
+		Nodo<T> aux = this.inicio;
+		Nodo<T> aux2 = a.inicio;
+		Integer dato = 0;
+		Boolean bandera = true;
+		while ((aux != null) && (aux2 != null) && bandera) {
+			if (aux.getDato() > aux2.getDato()) {
+				dato = 1;
+				bandera = false;
+			}
+
+			if (aux.getDato() < aux2.getDato()) {
+				dato = 2;
+				bandera = false;
+			}
+			aux = aux.getSiguiente();
+			aux2 = aux2.getSiguiente();
+		}
+
+		if (aux == null && aux2 != null)
+			dato = 2;
+
+		if (aux2 == null && aux != null)
+			dato = 1;
+
+		return dato;
+	}
+
+	public void suma(Lista c) {
+		Nodo<T> aux = inicio;
+		Nodo<T> aux2 = c.inicio;
+		Lista temp = new Lista();
+		Lista temp2 = new Lista();
+		Integer dato = 0;
+		Integer contador = 0;
+		String cadena = null;
+
+		while (aux != null) {
+			temp.insertar(aux.getDato());
+			aux = aux.getSiguiente();
+		}
+
+		while (aux2 != null) {
+			temp2.insertar(aux2.getDato());
+			aux2 = aux2.getSiguiente();
+		}
+
+		Nodo aux3 = temp.inicio;
+		Nodo aux4 = temp2.inicio;
+
+		Lista l5 = new Lista();
+
+		while (aux3 != null && aux4 != null) {
+			if ((aux3.getDato() + aux4.getDato() + contador) > 9) {
+				cadena = aux3.getDato() + aux4.getDato() + contador + "";
+				cadena = cadena.charAt(cadena.length() - 1) + "";
+				dato = dato.parseInt(cadena);
+				l5.insertar(dato);
+				contador = 1;
+			} else {
+				l5.insertar(aux3.getDato() + aux4.getDato() + contador);
+				contador = 0;
+			}
+			aux3 = aux3.getSiguiente();
+			aux4 = aux4.getSiguiente();
+
+		}
+
+		Nodo final1;
+
+		if (aux3 == null)
+			final1 = aux4;
+		else
+			final1 = aux3;
+
+		while (final1 != null) {
+			if (final1.getDato() + contador > 9) {
+				cadena = final1.getDato() + contador + "";
+				cadena = cadena.charAt(cadena.length() - 1) + "";
+				dato = dato.parseInt(cadena);
+				l5.insertar(dato);
+				contador = 1;
+			} else {
+				l5.insertar(final1.getDato() + contador);
+				contador = 0;
+			}
+			final1 = final1.getSiguiente();
+		}
+
+		if (contador > 0)
+			l5.insertar(contador);
+
+		System.out.println("La suma es: ");
+		l5.recorrer();
+
+	}
+
+	public void insertaFinal(T obj){
+		Nodo<T> q = inicio;
+		Nodo<T> t = new Nodo<>(obj);
+		if (inicio == null){
+		inicio = t;
+		}else{
+		while(q.getSiguiente() != null){
+		q = q.getSiguiente();
+		}
+		q.setSiguiente(t);
+		}
+		}
+
+
+	public lista invertirLista(){
+		lista<T> nueva = new lista<>();
+		Nodo<T> q = inicio;
+		if (inicio != null){
+		while (q != null){ 
+		nueva.insertaInicio(q.getDato());
+		q = q.getSiguiente();
+		}
+		}
+		return nueva;
+		}
+
+
+	public void insertaAntesDeX(T obj, T dato){
+		boolean ban = false;
+		Nodo<T> t = new Nodo<T>(dato);
+		Nodo<T> s = new Nodo<T>();
+		Nodo<T> q = inicio;
+		while ((!q.getDato().equals(obj))&&(!ban)){
+		if (q.getSiguiente()!=null){
+		s = q;
+		q = q.getSiguiente();
+		}else{
+		ban = true;
+		}
+		} 
+		if (!ban){
+		if (inicio == q){
+		t.setSiguiente(inicio);
+		inicio = t;
+		}else{
+		s.setSiguiente(t);
+		t.setSiguiente(q);
+		}
+		}else{
+		System.out.println("Error");
+		}
+		}
+
+
+	public void insertaDespuesDeX(T obj, T dato ){
+		boolean ban = false;
+		Nodo<T> t = new Nodo<T>(dato);
+		Nodo<T> s;
+		Nodo<T> q = inicio;
+		while ((q != null) && (!ban)){
+		if (q.getDato().equals(obj)){
+		ban = true;
+		}else{
+		q = q.getSiguiente();
+		}
+		} 
+		if (ban){
+		if (q.getSiguiente() != null){
+		s = q.getSiguiente();
+		q.setSiguiente(t);
+		t.setSiguiente(s);
+		}else{
+		q.setSiguiente(t);
+		t.setSiguiente(null);
+		}
+		} 
+		}
+
+	public void dividir(Integer num) {
+		int cont = 0;
+		Nodo<T> q = inicio;
+		while (q != null) {
+			q = q.getSiguiente();
+			cont++;
+		}
+		q = inicio;
+		int primeraParte = cont - cont / 2;
+		cont = 0;
+		if (num == 1) {
+			while (cont != primeraParte) {
+				System.out.println(q.getDato());
+				q = q.getSiguiente();
+				cont++;
+			}
+		} else {
+			while (cont != primeraParte) {
+				q = q.getSiguiente();
+				cont++;
+			}
+			while (q != null) {
+				System.out.println(q.getDato());
+				q = q.getSiguiente();
+			}
+		}
+	}
+
+
+	public void eliminarDuplicados() {
+		Nodo<T> q = inicio;
+		Nodo<T> r;
+		Nodo<T> s = q;
+		boolean ban;
+		while (q != null && s.getSiguiente() != null) {
+			ban = false;
+			r = q;
+			s = q.getSiguiente();
+			while (s.getDato() != q.getDato() && !ban) {
+				if (s.getSiguiente() != null) {
+					r = s;
+					s = s.getSiguiente();
+				} else {
+					ban = true;
+				}
+			}
+			if (!ban) {
+				if (s.getSiguiente() != null) {
+					s = s.getSiguiente();
+					r.setSiguiente(s);
+				} else {
+					r.setSiguiente(null);
+				}
+			}
+			q = q.getSiguiente();
+		}
+	}
+}
