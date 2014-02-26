@@ -1,0 +1,14 @@
+
+public class Principal {
+
+//hize solo una prueba
+	
+	public static void main(String... args){
+		Lista<Integer> l1=new Lista();
+		l1.agregarInicio(12);
+		l1.agregarInicio(14);
+		l1.agregarInicio(15);
+		l1.recorrer();
+	}
+
+}
